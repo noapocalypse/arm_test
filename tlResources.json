@@ -46,8 +46,8 @@
         "apiVersion": "2021-09-01-preview",
         "properties": {
 
-          "displayName": "TestGit the testening",
-          "description": "Pull hardcoded rule from Git",
+          "displayName": "Find Domain Controller Info",
+          "description": "Discovery technique used by threat actors to find info about the domain they are on",
           "severity": "Low",
           "enabled": true,
           "query": "SecurityEvent |  where EventID == 4688 | where (((NewProcessName endswith 'powershell.exe') and CommandLine contains 'get-wmiobject' and CommandLine contains 'findstr' and CommandLine contains 'domaincontroller') or ((NewProcessName endswith 'cmd.exe') and CommandLine contains 'computersystem' and CommandLine contains 'get' and CommandLine contains 'domain')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
@@ -58,8 +58,7 @@
           "suppressionDuration": "PT2H30M",
           "suppressionEnabled": true,
           "tactics": [
-          "InitialAccess",
-          "Persistence"
+          "Discovery"
           ],
           "alertRuleTemplateName": null   
 
