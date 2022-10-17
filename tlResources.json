@@ -41,7 +41,7 @@
           "triggerThreshold": 0,
           "suppressionDuration": "PT2H30M",
           "suppressionEnabled": true,
-          "tactics": "InitialAccess",
+          "tactics": '["InitialAccess"]',
           "alertRuleTemplateName": null   
 
         }
