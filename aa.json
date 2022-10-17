@@ -13,25 +13,25 @@
         
         "guid2": {
         "type": "string",
-        "defaultValue": "20221010-testsp-sentinel",
+        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]",
 
       },
         
         
         "guid3": {
         "type": "string",
-        "value": "20221010-testsp-sentinel",
+        "value": "[concat(variables('alertRuleName'),newGuid())]",
        
       },
         
         "guid4": {
         "type": "string",
-        "value": "20221010-testsp-sentinel",
+        "value":  "[concat(variables('alertRuleName'),newGuid())]",
        
       },
         "guid1": {
         "type": "string",
-        "value": [concat(variables('alertRuleName'),newGuid())]",
+        "value": "[concat(variables('alertRuleName'),newGuid())]",
       },
               
       "analyticsRuleId": {
