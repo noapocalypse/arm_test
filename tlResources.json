@@ -13,25 +13,24 @@
         
         "guid2": {
         "type": "string",
-        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]",
-
+        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]"
       },
         
         
         "guid3": {
         "type": "string",
-        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]"
        
       },
         
         "guid4": {
         "type": "string",
-        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]"
        
       },
         "guid1": {
         "type": "string",
-        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]"
       },
               
       "analyticsRuleId": {
