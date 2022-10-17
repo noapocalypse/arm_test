@@ -12,7 +12,7 @@
     
       "analyticsRuleId": {
         "type": "string",
-        "defaultValue": "[newGuid()]",
+        "defaultValue": "123",
         "metadata": {
           "description": "The name (GUID) of the Azure Sentinel custom analytics rule."
         }
