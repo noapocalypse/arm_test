@@ -8,8 +8,7 @@
         "metadata": {
           "description": "The name of the Log Analytics Workspace Azure Sentinel is connected to."
         }
-      },
-        
+      },     
         
         "guid2": {
         "type": "string",
