@@ -42,7 +42,7 @@
       {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
    
-        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', base64('Find Domain Controller Info'))]",
+        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', uniqueString('Find Domain Controller Info'))]",
 
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
