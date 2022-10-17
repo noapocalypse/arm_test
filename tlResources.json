@@ -74,7 +74,7 @@
       },
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[[parameters('guid2')]]",
+        "name": "[parameters('guid2')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
