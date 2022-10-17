@@ -8,34 +8,34 @@
         "metadata": {
           "description": "The name of the Log Analytics Workspace Azure Sentinel is connected to."
         }
-      },      
+      }      
         
-        "guid2": {
-        "type": "string",
-        "defaultValue":  "[newGuid()]"
-      },
+    //     "guid2": {
+    //     "type": "string",
+    //     "defaultValue":  "[newGuid()]"
+    //   },
         
         
-        "guid3": {
-        "type": "string",
-        "defaultValue":  "[newGuid()]"       
-      },
+    //     "guid3": {
+    //     "type": "string",
+    //     "defaultValue":  "[newGuid()]"       
+    //   },
         
-        "guid4": {
-        "type": "string",
-        "defaultValue":  "[newGuid()]"       
-      },
-        "guid1": {
-        "type": "string",
-        "defaultValue":  "[newGuid()]"
-      }
+    //     "guid4": {
+    //     "type": "string",
+    //     "defaultValue":  "[newGuid()]"       
+    //   },
+    //     "guid1": {
+    //     "type": "string",
+    //     "defaultValue":  "[newGuid()]"
+    //   }
                
     },  
     "variables": {
-            "g1": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'bob')]",
-            "g2": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid2'))]",
-            "g3": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid3'))]",
-            "g4": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid4'))]"
+            // "g1": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid1'))]",
+            // "g2": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid2'))]",
+            // "g3": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid3'))]",
+            // "g4": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid4'))]"
     },
     "resources": [
       
@@ -68,7 +68,7 @@
       },
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[variables('g2')]",
+        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', uniqueString('MS Office Suspicious Child Process by Threat Logic'))]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -99,7 +99,7 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[variables('g3')]",
+        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', uniqueString('T1490 Potential Ransomware - vssadmin delete shadow copies by Threat Logic'))]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -127,7 +127,7 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[variables('g4')]",
+        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', uniqueString('Create a scheduled task by Threat Logic'))]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
