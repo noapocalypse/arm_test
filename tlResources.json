@@ -30,7 +30,7 @@
         "apiVersion": "2021-09-01-preview",
         "properties": {
 
-          "displayName": "TestGit",
+          "displayName": "TestGit the testening",
           "description": "Pull hardcoded rule from Git",
           "severity": "Low",
           "enabled": true,
