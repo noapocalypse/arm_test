@@ -13,25 +13,24 @@
         
         "guid2": {
         "type": "string",
-        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]",
-
+        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]"
       },
         
         
         "guid3": {
         "type": "string",
-        "value": "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]"
        
       },
         
         "guid4": {
         "type": "string",
-        "value":  "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]"
        
       },
         "guid1": {
         "type": "string",
-        "value": "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]"
       },
               
       "analyticsRuleId": {
@@ -75,7 +74,7 @@
       },
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[[parameters('guid2')]]",
+        "name": "[parameters('guid2')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
