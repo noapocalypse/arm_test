@@ -9,7 +9,31 @@
           "description": "The name of the Log Analytics Workspace Azure Sentinel is connected to."
         }
       },
-    
+        
+        
+        "guid2": {
+        "type": "string",
+        "defaultValue": "20221010-testsp-sentinel",
+
+      },
+        
+        
+        "guid3": {
+        "type": "string",
+        "value": "20221010-testsp-sentinel",
+       
+      },
+        
+        "guid4": {
+        "type": "string",
+        "value": "20221010-testsp-sentinel",
+       
+      },
+        "guid1": {
+        "type": "string",
+        "value": [concat(variables('alertRuleName'),newGuid())]",
+      },
+              
       "analyticsRuleId": {
         "type": "string",
         "defaultValue": "123",
@@ -25,7 +49,7 @@
       
       {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(variables('alertRuleName'),newGuid())]",
+        "name": "[parameters('guid1')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -51,30 +75,30 @@
       },
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(variables('alertRuleName'),newGuid())]",
+        "name": "[[parameters('guid2')]]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
         
         
-    "displayName": "MS Office Suspicious Child Process by Threat Logic",
-    "description": "An admin level process has been created/called by a Microsoft office process Author: Threat Logic. Rule ID: e737b261-ca3f-4336-a957-8c9c1ff230e3. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
-    "severity": "high",
-    "enabled": true,
-    "query": "SecurityEvent |  where EventID == 4688 | where ((NewProcessName endswith 'Microsoft.Workflow.Compiler.exe' or NewProcessName endswith 'arp.exe' or NewProcessName endswith 'atbroker.exe' or NewProcessName endswith 'bginfo.exe' or NewProcessName endswith 'bitsadmin.exe' or NewProcessName endswith 'cdb.exe' or NewProcessName endswith 'certutil.exe' or NewProcessName endswith 'cmd.exe' or NewProcessName endswith 'cmstp.exe' or NewProcessName endswith 'cscript.exe' or NewProcessName endswith 'csi.exe' or NewProcessName endswith 'dnx.exe' or NewProcessName endswith 'dsget.exe' or NewProcessName endswith 'dsquery.exe' or NewProcessName endswith 'forfiles.exe' or NewProcessName endswith 'fsi.exe' or NewProcessName endswith 'ftp.exe' or NewProcessName endswith 'gpresult.exe' or NewProcessName endswith 'hostname.exe' or NewProcessName endswith 'ieexec.exe' or NewProcessName endswith 'iexpress.exe' or NewProcessName endswith 'installutil.exe' or NewProcessName endswith 'ipconfig.exe' or NewProcessName endswith 'mshta.exe' or NewProcessName endswith 'msxsl.exe' or NewProcessName endswith 'nbtstat.exe' or NewProcessName endswith 'net.exe' or NewProcessName endswith 'net1.exe' or NewProcessName endswith 'netsh.exe' or NewProcessName endswith 'netstat.exe' or NewProcessName endswith 'nltest.exe' or NewProcessName endswith 'odbcconf.exe' or NewProcessName endswith 'ping.exe' or NewProcessName endswith 'powershell.exe' or NewProcessName endswith 'pwsh.exe' or NewProcessName endswith 'qprocess.exe' or NewProcessName endswith 'quser.exe' or NewProcessName endswith 'qwinsta.exe' or NewProcessName endswith 'rcsi.exe' or NewProcessName endswith 'reg.exe' or NewProcessName endswith 'regasm.exe' or NewProcessName endswith 'regsvcs.exe' or NewProcessName endswith 'regsvr32.exe' or NewProcessName endswith 'sc.exe' or NewProcessName endswith 'schtasks.exe' or NewProcessName endswith 'systeminfo.exe' or NewProcessName endswith 'tasklist.exe' or NewProcessName endswith 'tracert.exe' or NewProcessName endswith 'whoami.exe' or NewProcessName endswith 'wmic.exe' or NewProcessName endswith 'wscript.exe' or NewProcessName endswith 'xwizard.exe' or NewProcessName endswith 'rundll32.exe' or NewProcessName endswith 'msiexe.exe' or NewProcessName endswith 'mshta.exe' or NewProcessName endswith 'verclsid.exe' or NewProcessName endswith 'svchost.exe') and (ParentProcessName endswith 'winword.exe' or ParentProcessName endswith 'excel.exe' or ParentProcessName endswith 'powerpnt.exe' or ParentProcessName endswith 'msaccess.exe' or ParentProcessName endswith 'mspub.exe' or ParentProcessName endswith 'eqnedt32.exe')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
-    "queryFrequency": "PT30M",
-    "queryPeriod": "PT30M",
-    "triggerOperator": "GreaterThan",
-    "triggerThreshold": 0,
-    "suppressionDuration": "PT2H30M",
-    "suppressionEnabled": true,
-    "tactics": [
-        "InitialAccess"
-    ],
-    "techniques": [
-        "T1566",
-        "T1566.001"
-    ]
+            "displayName": "MS Office Suspicious Child Process by Threat Logic",
+            "description": "An admin level process has been created/called by a Microsoft office process Author: Threat Logic. Rule ID: e737b261-ca3f-4336-a957-8c9c1ff230e3. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
+            "severity": "high",
+            "enabled": true,
+            "query": "SecurityEvent |  where EventID == 4688 | where ((NewProcessName endswith 'Microsoft.Workflow.Compiler.exe' or NewProcessName endswith 'arp.exe' or NewProcessName endswith 'atbroker.exe' or NewProcessName endswith 'bginfo.exe' or NewProcessName endswith 'bitsadmin.exe' or NewProcessName endswith 'cdb.exe' or NewProcessName endswith 'certutil.exe' or NewProcessName endswith 'cmd.exe' or NewProcessName endswith 'cmstp.exe' or NewProcessName endswith 'cscript.exe' or NewProcessName endswith 'csi.exe' or NewProcessName endswith 'dnx.exe' or NewProcessName endswith 'dsget.exe' or NewProcessName endswith 'dsquery.exe' or NewProcessName endswith 'forfiles.exe' or NewProcessName endswith 'fsi.exe' or NewProcessName endswith 'ftp.exe' or NewProcessName endswith 'gpresult.exe' or NewProcessName endswith 'hostname.exe' or NewProcessName endswith 'ieexec.exe' or NewProcessName endswith 'iexpress.exe' or NewProcessName endswith 'installutil.exe' or NewProcessName endswith 'ipconfig.exe' or NewProcessName endswith 'mshta.exe' or NewProcessName endswith 'msxsl.exe' or NewProcessName endswith 'nbtstat.exe' or NewProcessName endswith 'net.exe' or NewProcessName endswith 'net1.exe' or NewProcessName endswith 'netsh.exe' or NewProcessName endswith 'netstat.exe' or NewProcessName endswith 'nltest.exe' or NewProcessName endswith 'odbcconf.exe' or NewProcessName endswith 'ping.exe' or NewProcessName endswith 'powershell.exe' or NewProcessName endswith 'pwsh.exe' or NewProcessName endswith 'qprocess.exe' or NewProcessName endswith 'quser.exe' or NewProcessName endswith 'qwinsta.exe' or NewProcessName endswith 'rcsi.exe' or NewProcessName endswith 'reg.exe' or NewProcessName endswith 'regasm.exe' or NewProcessName endswith 'regsvcs.exe' or NewProcessName endswith 'regsvr32.exe' or NewProcessName endswith 'sc.exe' or NewProcessName endswith 'schtasks.exe' or NewProcessName endswith 'systeminfo.exe' or NewProcessName endswith 'tasklist.exe' or NewProcessName endswith 'tracert.exe' or NewProcessName endswith 'whoami.exe' or NewProcessName endswith 'wmic.exe' or NewProcessName endswith 'wscript.exe' or NewProcessName endswith 'xwizard.exe' or NewProcessName endswith 'rundll32.exe' or NewProcessName endswith 'msiexe.exe' or NewProcessName endswith 'mshta.exe' or NewProcessName endswith 'verclsid.exe' or NewProcessName endswith 'svchost.exe') and (ParentProcessName endswith 'winword.exe' or ParentProcessName endswith 'excel.exe' or ParentProcessName endswith 'powerpnt.exe' or ParentProcessName endswith 'msaccess.exe' or ParentProcessName endswith 'mspub.exe' or ParentProcessName endswith 'eqnedt32.exe')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
+            "queryFrequency": "PT30M",
+            "queryPeriod": "PT30M",
+            "triggerOperator": "GreaterThan",
+            "triggerThreshold": 0,
+            "suppressionDuration": "PT2H30M",
+            "suppressionEnabled": true,
+            "tactics": [
+                "InitialAccess"
+            ],
+            "techniques": [
+                "T1566",
+                "T1566.001"
+            ]
 
             
         }
@@ -82,59 +106,59 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(variables('alertRuleName'),newGuid())]",
+        "name": "[parameters('guid3')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
         
-         "displayName": "T1490 Potential Ransomware - vssadmin delete shadow copies by Threat Logic",
-    "description": "Adversaries may delete these shadow copies, typically through the usage of system utilities such as vssadmin.exe or wmic.exe, in order prevent file and data recovery. This technique is commonly employed for this purpose by ransomware Author: Threat Logic. Rule ID: fac01222-ad70-40be-b84f-1b28b046a049. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
-    "severity": "high",
-    "enabled": true,
-    "query": "SecurityEvent |  where EventID == 4688 | where (NewProcessName =~ 'vssadmin.exe' and (CommandLine contains 'vssadmin delete shadows /all' or CommandLine contains 'delete')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
-    "queryFrequency": "PT30M",
-    "queryPeriod": "PT30M",
-    "triggerOperator": "GreaterThan",
-    "triggerThreshold": 0,
-    "suppressionDuration": "PT2H30M",
-    "suppressionEnabled": true,
-    "tactics": [
-        "Impact"
-    ],
-    "techniques": [
-        "T1490"
-    ]   
+            "displayName": "T1490 Potential Ransomware - vssadmin delete shadow copies by Threat Logic",
+            "description": "Adversaries may delete these shadow copies, typically through the usage of system utilities such as vssadmin.exe or wmic.exe, in order prevent file and data recovery. This technique is commonly employed for this purpose by ransomware Author: Threat Logic. Rule ID: fac01222-ad70-40be-b84f-1b28b046a049. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
+            "severity": "high",
+            "enabled": true,
+            "query": "SecurityEvent |  where EventID == 4688 | where (NewProcessName =~ 'vssadmin.exe' and (CommandLine contains 'vssadmin delete shadows /all' or CommandLine contains 'delete')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
+            "queryFrequency": "PT30M",
+            "queryPeriod": "PT30M",
+            "triggerOperator": "GreaterThan",
+            "triggerThreshold": 0,
+            "suppressionDuration": "PT2H30M",
+            "suppressionEnabled": true,
+            "tactics": [
+                "Impact"
+            ],
+            "techniques": [
+                "T1490"
+            ]   
                     
         }
        },
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(variables('alertRuleName'),newGuid())]",
+        "name": "[parameters('guid4')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
         
-        "displayName": "Create a scheduled task by Threat Logic",
-    "description": "Create a recurring task, to eg. to keep reverse shell alive Author: Threat Logic. Rule ID: A9DA68C2-4732-42EE-AC0B-FBBC0404A648. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
-    "severity": "high",
-    "enabled": true,
-    "query": "SecurityEvent |  where EventID == 4688 | where (CommandLine contains 'schtasks' and CommandLine contains 'create') | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
-    "queryFrequency": "PT30M",
-    "queryPeriod": "PT30M",
-    "triggerOperator": "GreaterThan",
-    "triggerThreshold": 0,
-    "suppressionDuration": "PT2H30M",
-    "suppressionEnabled": true,
-    "tactics": [
-        "Execution",
-        "Persistence",
-        "PrivilegeEscalation"
-    ],
-    "techniques": [
-        "T1053",
-        "T1547"
-    ]
+            "displayName": "Create a scheduled task by Threat Logic",
+            "description": "Create a recurring task, to eg. to keep reverse shell alive Author: Threat Logic. Rule ID: A9DA68C2-4732-42EE-AC0B-FBBC0404A648. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
+            "severity": "high",
+            "enabled": true,
+            "query": "SecurityEvent |  where EventID == 4688 | where (CommandLine contains 'schtasks' and CommandLine contains 'create') | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
+            "queryFrequency": "PT30M",
+            "queryPeriod": "PT30M",
+            "triggerOperator": "GreaterThan",
+            "triggerThreshold": 0,
+            "suppressionDuration": "PT2H30M",
+            "suppressionEnabled": true,
+            "tactics": [
+                "Execution",
+                "Persistence",
+                "PrivilegeEscalation"
+            ],
+            "techniques": [
+                "T1053",
+                "T1547"
+            ]
         
         }
        }
