@@ -20,18 +20,18 @@
         
         "guid3": {
         "type": "string",
-        "value": "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]",
        
       },
         
         "guid4": {
         "type": "string",
-        "value":  "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]",
        
       },
         "guid1": {
         "type": "string",
-        "value": "[concat(variables('alertRuleName'),newGuid())]",
+        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]",
       },
               
       "analyticsRuleId": {
