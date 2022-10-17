@@ -8,46 +8,40 @@
         "metadata": {
           "description": "The name of the Log Analytics Workspace Azure Sentinel is connected to."
         }
-      },     
+      },      
         
         "guid2": {
         "type": "string",
-        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]"
+        "defaultValue":  "[newGuid()]"
       },
         
         
         "guid3": {
         "type": "string",
-        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]"
-       
+        "defaultValue":  "[newGuid()]"       
       },
         
         "guid4": {
         "type": "string",
-        "defaultValue":  "[concat(variables('alertRuleName'),newGuid())]"
-       
+        "defaultValue":  "[newGuid()]"       
       },
         "guid1": {
         "type": "string",
-        "defaultValue": "[concat(variables('alertRuleName'),newGuid())]"
-      },
-              
-      "analyticsRuleId": {
-        "type": "string",
-        "defaultValue": "123",
-        "metadata": {
-          "description": "The name (GUID) of the Azure Sentinel custom analytics rule."
-        }
-      }     
+        "defaultValue":  "[newGuid()]"
+      }
+               
     },  
     "variables": {
-            "alertRuleName": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/')]"
+            "g1": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid1'))]",
+            "g2": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid2'))]",
+            "g3": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid3'))]",
+            "g4": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid4'))]"
     },
     "resources": [
       
       {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[parameters('guid1')]",
+        "name": "[variables('g1')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -73,7 +67,7 @@
       },
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[parameters('guid2')]",
+        "name": "[variables('g2')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -104,7 +98,7 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[parameters('guid3')]",
+        "name": "[variables('g3')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -132,7 +126,7 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[parameters('guid4')]",
+        "name": "[variables('g4')]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
