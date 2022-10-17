@@ -25,7 +25,7 @@
       
       {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[variables('alertRuleName')]",
+        "name": "[concat(variables('alertRuleName'),'R1']",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -51,7 +51,7 @@
       },
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[variables('alertRuleName')]",
+        "name": "[concat(variables('alertRuleName'),'R2']",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -82,7 +82,7 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[variables('alertRuleName')]",
+        "name": "[concat(variables('alertRuleName'),'R3']",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -110,7 +110,7 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[variables('alertRuleName')]",
+        "name": "[concat(variables('alertRuleName'),'R4']",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
