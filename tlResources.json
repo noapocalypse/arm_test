@@ -19,13 +19,13 @@
       }     
     },  
     "variables": {
-            "alertRuleName": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('analyticsRuleId'))]"
+            "alertRuleName": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/')]"
     },
     "resources": [
       
       {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(variables('alertRuleName'),'R1']",
+        "name": "[concat(variables('alertRuleName'),newGuid()]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -51,7 +51,7 @@
       },
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(variables('alertRuleName'),'R2']",
+        "name": "[concat(variables('alertRuleName'),newGuid()]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -82,7 +82,7 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(variables('alertRuleName'),'R3']",
+        "name": "[concat(variables('alertRuleName'),newGuid()]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
@@ -110,7 +110,7 @@
         
        {
         "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(variables('alertRuleName'),'R4']",
+        "name": "[concat(variables('alertRuleName'),newGuid()]",
         "kind": "Scheduled",
         "apiVersion": "2021-09-01-preview",
         "properties": {
