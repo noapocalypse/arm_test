@@ -1,0 +1,50 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "workspaceName": {
+        "type": "string",
+        "defaultValue": "20221010-testsp-sentinel",
+        "metadata": {
+          "description": "The name of the Log Analytics Workspace Azure Sentinel is connected to."
+        }
+      },
+    
+      "analyticsRuleId": {
+        "type": "string",
+        "defaultValue": "[newGuid()]",
+        "metadata": {
+          "description": "The name (GUID) of the Azure Sentinel custom analytics rule."
+        }
+      }     
+    },  
+    "variables": {
+            "alertRuleName": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('analyticsRuleId'))]"
+    },
+    "resources": [
+      
+      {
+        "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+        "name": "[variables('alertRuleName')]",
+        "kind": "Scheduled",
+        "apiVersion": "2021-09-01-preview",
+        "properties": {
+
+          "displayName": "TestGit",
+          "description": "Pull hardcoded rule from Git",
+          "severity": "Low",
+          "enabled": true,
+          "query": "SecurityEvent |  where EventID == 4688 | where (((NewProcessName endswith 'powershell.exe') and CommandLine contains 'get-wmiobject' and CommandLine contains 'findstr' and CommandLine contains 'domaincontroller') or ((NewProcessName endswith 'cmd.exe') and CommandLine contains 'computersystem' and CommandLine contains 'get' and CommandLine contains 'domain')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
+          "queryFrequency": "PT30M",
+          "queryPeriod": "PT30M",
+          "triggerOperator": "GreaterThan",
+          "triggerThreshold": 0,
+          "suppressionDuration": "PT2H30M",
+          "suppressionEnabled": true,
+          "tactics": "d",
+          "alertRuleTemplateName": null   
+
+        }
+      }
+    ]
+  }
