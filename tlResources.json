@@ -32,7 +32,7 @@
                
     },  
     "variables": {
-            "g1": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid1'))]",
+            "g1": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'bob')]",
             "g2": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid2'))]",
             "g3": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid3'))]",
             "g4": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', parameters('guid4'))]"
