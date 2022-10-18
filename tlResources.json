@@ -4,7 +4,7 @@
     "parameters": {
       "workspaceName": {
         "type": "string",
-        "defaultValue": "20221010-testsp-sentinel",
+        "defaultValue": "X",
         "metadata": {
           "description": "The name of the Log Analytics Workspace Azure Sentinel is connected to."
         }
