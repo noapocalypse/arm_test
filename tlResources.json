@@ -14,7 +14,7 @@
             "kind": "Scheduled",
             "apiVersion": "2022-11-01-preview",
             "properties": {
-                "displayName": "FJ - Rare subscription-level operations in Azure",
+                "displayName": "Rare subscription-level operations in Azure",
                 "description": "This query looks for a few sensitive subscription-level events based on Azure Activity Logs. \n For example this monitors for the operation name 'Create or Update Snapshot' which is used for creating backups but could be misused by attackers \n to dump hashes or extract sensitive information from the disk.",
                 "severity": "Low",
                 "enabled": true,
@@ -72,7 +72,7 @@
                     }
                 ],
                 "sentinelEntitiesMappings": null,
-                "templateVersion": "1.1.1"
+                "templateVersion": "2.0.0"
             }
         }
     ]
