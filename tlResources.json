@@ -77,7 +77,7 @@
         },
         {
       "id": "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/64489bba-c903-46e5-abdf-23da297ea1d9')]",
-      "name": "[concat(parameters('sentinelWorkspaceName'),'/Microsoft.SecurityInsights/64489bba-c903-46e5-abdf-23da297ea1d9')]",
+      "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/64489bba-c903-46e5-abdf-23da297ea1d9')]",
       "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
       "kind": "Scheduled",
       "apiVersion": "2022-10-01-preview",
