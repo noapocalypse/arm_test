@@ -82,7 +82,7 @@
       "kind": "Scheduled",
       "apiVersion": "2022-10-01-preview",
             "properties": {
-                "displayName": "[concat(parameters('generalPrefix'), 'Suspicious number of resource creation or deployment activities')]",
+                "displayName": "Suspicious number of resource creation or deployment activities",
                 "description": "Indicates when an anomalous number of VM creations or deployment activities occur in Azure via the AzureActivity log.\nThe anomaly detection identifies activities that have occurred both since the start of the day 1 day ago and the start of the day 7 days ago.\nThe start of the day is considered 12am UTC time.",
                 "severity": "Medium",
                 "enabled": true,
