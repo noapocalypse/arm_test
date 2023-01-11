@@ -2,136 +2,78 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "workspaceName": {
-        "type": "string",
-        "defaultValue": "X",
-        "metadata": {
-          "description": "The name of the Log Analytics Workspace Azure Sentinel is connected to."
+        "workspace": {
+            "type": "String"
         }
-      }      
-       
-    },  
-    "variables": {
-            
     },
     "resources": [
-      
-      {
-        "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-   
-        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', guid('Find Domain Controller Info'))]",
-
-        "kind": "Scheduled",
-        "apiVersion": "2021-09-01-preview",
-        "properties": {
-
-          "displayName": "Find Domain Controller Info",
-          "description": "Discovery technique used by threat actors to find info about the domain they are on",
-          "severity": "Low",
-          "enabled": true,
-          "query": "SecurityEvent |  where EventID == 4688 | where (((NewProcessName endswith 'powershell.exe') and CommandLine contains 'get-wmiobject' and CommandLine contains 'findstr' and CommandLine contains 'domaincontroller') or ((NewProcessName endswith 'cmd.exe') and CommandLine contains 'computersystem' and CommandLine contains 'get' and CommandLine contains 'domain')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
-          "queryFrequency": "PT30M",
-          "queryPeriod": "PT30M",
-          "triggerOperator": "GreaterThan",
-          "triggerThreshold": 0,
-          "suppressionDuration": "PT2H30M",
-          "suppressionEnabled": true,
-          "tactics": [
-          "Discovery"
-          ],
-          "alertRuleTemplateName": null   
-
+        {
+            "id": "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/a0354440-7edf-45cf-9e42-2ec0f64b7aaf')]",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/a0354440-7edf-45cf-9e42-2ec0f64b7aaf')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "kind": "Scheduled",
+            "apiVersion": "2022-11-01-preview",
+            "properties": {
+                "displayName": "FJ - Rare subscription-level operations in Azure",
+                "description": "This query looks for a few sensitive subscription-level events based on Azure Activity Logs. \n For example this monitors for the operation name 'Create or Update Snapshot' which is used for creating backups but could be misused by attackers \n to dump hashes or extract sensitive information from the disk.",
+                "severity": "Low",
+                "enabled": true,
+                "query": "let starttime = 14d;\nlet endtime = 1d;\n// The number of operations below which an IP address is considered an unusual source of role assignment operations\nlet alertOperationThreshold = 5;\nlet SensitiveOperationList =  dynamic([\"microsoft.compute/snapshots/write\", \"microsoft.network/networksecuritygroups/write\", \"microsoft.storage/storageaccounts/listkeys/action\"]);\nlet SensitiveActivity = AzureActivity\n| where OperationNameValue in~ (SensitiveOperationList) or OperationNameValue hassuffix \"listkeys/action\"\n| where ActivityStatusValue =~ \"Success\";\nSensitiveActivity\n| where TimeGenerated between (ago(starttime) .. ago(endtime))\n| summarize count() by CallerIpAddress, Caller, OperationNameValue\n| where count_ >= alertOperationThreshold\n| join kind = rightanti ( \nSensitiveActivity\n| where TimeGenerated >= ago(endtime)\n| summarize StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated), ActivityTimeStamp = makelist(TimeGenerated), ActivityStatusValue = makelist(ActivityStatusValue), \nOperationIds = makelist(OperationId), CorrelationIds = makelist(CorrelationId), Resources = makelist(Resource), ResourceGroups = makelist(ResourceGroup), ResourceIds = makelist(ResourceId), ActivityCountByCallerIPAddress = count()  \nby CallerIpAddress, Caller, OperationNameValue\n) on CallerIpAddress, Caller, OperationNameValue\n| extend timestamp = StartTimeUtc, AccountCustomEntity = Caller, IPCustomEntity = CallerIpAddress",
+                "queryFrequency": "P1D",
+                "queryPeriod": "P14D",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "CredentialAccess",
+                    "Persistence"
+                ],
+                "techniques": [
+                    "T1003",
+                    "T1098"
+                ],
+                "alertRuleTemplateName": "23de46ea-c425-4a77-b456-511ae4855d69",
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": false,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "alertDetailsOverride": null,
+                "customDetails": null,
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "FullName",
+                                "columnName": "AccountCustomEntity"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "IP",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Address",
+                                "columnName": "IPCustomEntity"
+                            }
+                        ]
+                    }
+                ],
+                "sentinelEntitiesMappings": null,
+                "templateVersion": "1.1.1"
+            }
         }
-      },
-       {
-        "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', guid('MS Office Suspicious Child Process by Threat Logic'))]",
-        "kind": "Scheduled",
-        "apiVersion": "2021-09-01-preview",
-        "properties": {
-        
-        
-            "displayName": "MS Office Suspicious Child Process by Threat Logic",
-            "description": "An admin level process has been created/called by a Microsoft office process Author: Threat Logic. Rule ID: e737b261-ca3f-4336-a957-8c9c1ff230e3. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
-            "severity": "high",
-            "enabled": true,
-            "query": "SecurityEvent |  where EventID == 4688 | where ((NewProcessName endswith 'Microsoft.Workflow.Compiler.exe' or NewProcessName endswith 'arp.exe' or NewProcessName endswith 'atbroker.exe' or NewProcessName endswith 'bginfo.exe' or NewProcessName endswith 'bitsadmin.exe' or NewProcessName endswith 'cdb.exe' or NewProcessName endswith 'certutil.exe' or NewProcessName endswith 'cmd.exe' or NewProcessName endswith 'cmstp.exe' or NewProcessName endswith 'cscript.exe' or NewProcessName endswith 'csi.exe' or NewProcessName endswith 'dnx.exe' or NewProcessName endswith 'dsget.exe' or NewProcessName endswith 'dsquery.exe' or NewProcessName endswith 'forfiles.exe' or NewProcessName endswith 'fsi.exe' or NewProcessName endswith 'ftp.exe' or NewProcessName endswith 'gpresult.exe' or NewProcessName endswith 'hostname.exe' or NewProcessName endswith 'ieexec.exe' or NewProcessName endswith 'iexpress.exe' or NewProcessName endswith 'installutil.exe' or NewProcessName endswith 'ipconfig.exe' or NewProcessName endswith 'mshta.exe' or NewProcessName endswith 'msxsl.exe' or NewProcessName endswith 'nbtstat.exe' or NewProcessName endswith 'net.exe' or NewProcessName endswith 'net1.exe' or NewProcessName endswith 'netsh.exe' or NewProcessName endswith 'netstat.exe' or NewProcessName endswith 'nltest.exe' or NewProcessName endswith 'odbcconf.exe' or NewProcessName endswith 'ping.exe' or NewProcessName endswith 'powershell.exe' or NewProcessName endswith 'pwsh.exe' or NewProcessName endswith 'qprocess.exe' or NewProcessName endswith 'quser.exe' or NewProcessName endswith 'qwinsta.exe' or NewProcessName endswith 'rcsi.exe' or NewProcessName endswith 'reg.exe' or NewProcessName endswith 'regasm.exe' or NewProcessName endswith 'regsvcs.exe' or NewProcessName endswith 'regsvr32.exe' or NewProcessName endswith 'sc.exe' or NewProcessName endswith 'schtasks.exe' or NewProcessName endswith 'systeminfo.exe' or NewProcessName endswith 'tasklist.exe' or NewProcessName endswith 'tracert.exe' or NewProcessName endswith 'whoami.exe' or NewProcessName endswith 'wmic.exe' or NewProcessName endswith 'wscript.exe' or NewProcessName endswith 'xwizard.exe' or NewProcessName endswith 'rundll32.exe' or NewProcessName endswith 'msiexe.exe' or NewProcessName endswith 'mshta.exe' or NewProcessName endswith 'verclsid.exe' or NewProcessName endswith 'svchost.exe') and (ParentProcessName endswith 'winword.exe' or ParentProcessName endswith 'excel.exe' or ParentProcessName endswith 'powerpnt.exe' or ParentProcessName endswith 'msaccess.exe' or ParentProcessName endswith 'mspub.exe' or ParentProcessName endswith 'eqnedt32.exe')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
-            "queryFrequency": "PT30M",
-            "queryPeriod": "PT30M",
-            "triggerOperator": "GreaterThan",
-            "triggerThreshold": 0,
-            "suppressionDuration": "PT2H30M",
-            "suppressionEnabled": true,
-            "tactics": [
-                "InitialAccess"
-            ],
-            "techniques": [
-                "T1566",
-                "T1566.001"
-            ]
-
-            
-        }
-       },
-        
-       {
-        "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', guid('T1490 Potential Ransomware - vssadmin delete shadow copies by Threat Logic'))]",
-        "kind": "Scheduled",
-        "apiVersion": "2021-09-01-preview",
-        "properties": {
-        
-            "displayName": "T1490 Potential Ransomware - vssadmin delete shadow copies by Threat Logic",
-            "description": "Adversaries may delete these shadow copies, typically through the usage of system utilities such as vssadmin.exe or wmic.exe, in order prevent file and data recovery. This technique is commonly employed for this purpose by ransomware Author: Threat Logic. Rule ID: fac01222-ad70-40be-b84f-1b28b046a049. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
-            "severity": "high",
-            "enabled": true,
-            "query": "SecurityEvent |  where EventID == 4688 | where (NewProcessName =~ 'vssadmin.exe' and (CommandLine contains 'vssadmin delete shadows /all' or CommandLine contains 'delete')) | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
-            "queryFrequency": "PT30M",
-            "queryPeriod": "PT30M",
-            "triggerOperator": "GreaterThan",
-            "triggerThreshold": 0,
-            "suppressionDuration": "PT2H30M",
-            "suppressionEnabled": true,
-            "tactics": [
-                "Impact"
-            ],
-            "techniques": [
-                "T1490"
-            ]   
-                    
-        }
-       },
-        
-       {
-        "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
-        "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', guid('Create a scheduled task by Threat Logic'))]",
-        "kind": "Scheduled",
-        "apiVersion": "2021-09-01-preview",
-        "properties": {
-        
-            "displayName": "Create a scheduled task by Threat Logic",
-            "description": "Create a recurring task, to eg. to keep reverse shell alive Author: Threat Logic. Rule ID: A9DA68C2-4732-42EE-AC0B-FBBC0404A648. License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md. Reference: https://tdm.socprime.com/tdm/info/0.",
-            "severity": "high",
-            "enabled": true,
-            "query": "SecurityEvent |  where EventID == 4688 | where (CommandLine contains 'schtasks' and CommandLine contains 'create') | extend AccountCustomEntity = TargetUserName | extend HostCustomEntity = Computer | extend IPCustomEntity = IpAddress",
-            "queryFrequency": "PT30M",
-            "queryPeriod": "PT30M",
-            "triggerOperator": "GreaterThan",
-            "triggerThreshold": 0,
-            "suppressionDuration": "PT2H30M",
-            "suppressionEnabled": true,
-            "tactics": [
-                "Execution",
-                "Persistence",
-                "PrivilegeEscalation"
-            ],
-            "techniques": [
-                "T1053",
-                "T1547"
-            ]
-        
-        }
-       }
-        
     ]
-  }
+}
