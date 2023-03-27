@@ -442,7 +442,7 @@
     "generalPrefix": "[basics('generalPrefix')]",
     "tiapi": "[steps('oos').tiapi]",
     "notificationEmail": "[steps('oos').notificationEmail]",
-    "PvtGitCollector" "[steps('github').PvtGitCollector]",
+    "PvtGitCollector": "[steps('github').PvtGitCollector]",
     "_GitHubLocation": "[steps('github')._GitHubLocation]",
     "_GitHubAccessToken":"[steps('github')._GitHubAccessToken]"
         }
