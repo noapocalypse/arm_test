@@ -1,4 +1,3 @@
-
 {
     "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json",
     "config": {
@@ -12,8 +11,10 @@
                         "Microsoft.OperationalInsights/workspaces"
                     ]
                 }
-            },
-    "view": {
+            }
+        },
+	
+	"view": {
         "kind": "Form",
         "properties": {
             "title": "Uvance Threat Monitoring",
