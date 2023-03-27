@@ -17,15 +17,7 @@
             }
         },
         "basics": [
-            {
-                            "name": "resourceScope",
-                            "type": "Microsoft.Common.ResourceScope",
-                            "location": {
-                                "resourceTypes": [
-                                    "microsoft.resources/resourcegroups"
-                                ]
-                            }
-                        },
+            
                         {
                             "name": "location",
                             "type": "Microsoft.Common.TextBox",
@@ -433,8 +425,26 @@
                     ]
                 }
         ],
+        
         "outputs": {
-           
+    "location": "[basics('location')]",
+    "workspaceName": "[basics('workspaceName')]",
+    "baseTime": "[basics('baseTime')]",
+    "enableAzureAD": "[steps('connectors').enableAzureAD]",
+    "enableAzureActivity": "[steps('connectors').enableAzureActivity]",
+    "enableO365": "[steps('connectors').enableO365]",
+    "enableCloudAppSecurity": "[steps('connectors').enableCloudAppSecurity]",
+    "enableAzureADIdentityProtection":"[steps('connectors').enableAzureADIdentityProtection]",
+    "enableAzureDefender": "[steps('connectors').enableAzureDefender]",
+    "enableAzureDefenderForIdentity": "[steps('connectors').enableAzureDefenderForIdentity]",
+    "enableAzureDefenderForEndpoint": "[steps('connectors').enableAzureDefenderForEndpoint]",
+    "enableAzureSecurityCenter":  "[steps('connectors').enableAzureSecurityCenter]",
+    "generalPrefix": "[basics('generalPrefix')]",
+    "tiapi": "[steps('oos').tiapi]",
+    "notificationEmail": "[steps('oos').notificationEmail]",
+    "PvtGitCollector" "[steps('github').PvtGitCollector]",
+    "_GitHubLocation": "[steps('github')._GitHubLocation]",
+    "_GitHubAccessToken":"[steps('github')._GitHubAccessToken]"
         }
     }
 }
