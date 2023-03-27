@@ -434,23 +434,7 @@
                 }
         ],
         "outputs": {
-            "workspaceName": "[basics('workspaceName')]",
-            "dailyQuota": "[basics('dailyQuota')]",
-            "dataRetention": "[basics('dataRetention')]",
-            "pricingTierLA": "[basics('pricingTierLA')]",
-            "capacityReservationLA": "[basics('capacityReservationLA')]",
-            "pricingTierSentinel": "[basics('pricingTierSentinel')]",
-            "capacityReservationSentinel": "[basics('capacityReservationSentinel')]",
-            "enableUeba": "[steps('settings').enableUeba]",
-            "identityProviders": "[steps('settings').identityProviders]",
-            "enableDiagnostics": "[steps('settings').enableDiagnostics]",
-            "enableSolutions": "[steps('solutions').enableSolutions]",
-            "enableDataConnectors": "[steps('dataConnectors').enableDataConnectors]",
-            "location": "[location()]",
-            "enableMLAlerts": "[steps('analyticsRules').enableMLAlerts]",
-            "enableScheduledAlerts": "[steps('analyticsRules').enableScheduledAlerts]",
-            "severityLevels": "[steps('analyticsRules').severityLevels]",
-            "rgName": "[basics('rgName')]"
+           
         }
     }
 }
