@@ -1,99 +1,403 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "amlWorkspaceName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the existing AML workspace to create the linked service."
-            }
-        },
-        "linkName": {
-            "type": "string",
-            "defaultValue": "link1",
-            "metadata": {
-                "description": "Name of the LinkedService"
-            }
-        },
-        "synapseWorkspaceResourceId": {
-            "type": "string",
-            "metadata": {
-                "description": "ResourceId of the existing Synapse workspace which you want to link to the aml workspace by linked service."
-            }
-        },
-        "sparkPools": {
-            "type": "array",
-            "metadata": {
-                "description": "Spark pools you want to attach to the aml workspace, in such format: [ {\"computeName\":\"compute1\", \"poolName\":\"sparkPool1\"}, ... ]. Pool name is the name of spark pool shown in Synapse workspace, while compute name is the alias for this pool after it is attached to aml workspace."
-            }
+        "rgName": {
+            "type": "string"
         },
         "location": {
+            "type": "string"
+        },
+        "workspaceName": {
             "type": "string",
-            "allowedValues": [
-                "australiaeast",
-                "brazilsouth",
-                "canadacentral",
-                "centralindia",
-                "centralus",
-                "eastasia",
-                "eastus",
-                "eastus2",
-                "francecentral",
-                "japaneast",
-                "koreacentral",
-                "northcentralus",
-                "northeurope",
-                "southcentralus",
-                "southeastasia",
-                "uksouth",
-                "westcentralus",
-                "westeurope",
-                "westus",
-                "westus2"
-            ],
             "metadata": {
-                "description": "Location(aka region) of the LinkedService"
+                "description": "Name for the Log Analytics workspace"
             }
+        },
+        "pricingTierLA": {
+            "type": "string",
+            "metadata": {
+                "description": "Pricing tier: pergb2018 or legacy tiers (Free, Standalone, PerNode, Standard or Premium) which are not available to all customers."
+            },
+            "allowedValues": [
+                "CapacityReservation",
+                "Free",
+                "LACluster",
+                "PerGB2018",
+                "PerNode",
+                "Premium",
+                "Standalone",
+                "Standard"
+            ],
+            "defaultValue": "PerGB2018"
+        },
+        "capacityReservationLA": {
+            "type": "int",
+            "metadata": {
+                "description": "Commitment tier"
+            },
+            "allowedValues": [
+                100,
+                200,
+                300,
+                400,
+                500,
+                1000,
+                2000,
+                5000
+            ],
+            "defaultValue": 100
+        },
+        "pricingTierSentinel": {
+            "type": "string",
+            "metadata": {
+                "description": "Pricing tier: pergb2018 or legacy tiers (Free, Standalone, PerNode, Standard or Premium) which are not available to all customers."
+            },
+            "allowedValues": [
+                "CapacityReservation",
+                "PerGB"
+            ],
+            "defaultValue": "PerGB"
+        },
+        "capacityReservationSentinel": {
+            "type": "int",
+            "metadata": {
+                "description": "Commitment tier"
+            },
+            "allowedValues": [
+                100,
+                200,
+                300,
+                400,
+                500,
+                1000,
+                2000,
+                5000
+            ],
+            "defaultValue": 100
+        },
+        "enableDataConnectors": {
+            "type": "array",
+            "metadata": {
+                "description": "The kind of data connectors that can be deployed via ARM templates are the following: [\"AzureActivityLog\",\"SecurityInsightsSecurityEventCollectionConfiguration\",\"WindowsFirewall\",\"DnsAnalytics\"], Reference: https://docs.microsoft.com/azure/templates/microsoft.operationalinsights/2020-03-01-preview/workspaces/datasources#microsoftoperationalinsightsworkspacesdatasources-object"
+            },
+            "defaultValue": []
+        },
+        "severityLevels": {
+            "type": "array",
+            "metadata": {
+                "description": "Severity levels desired for Analytics Rules"
+            },
+            "defaultValue": []
+        },
+        "dailyQuota": {
+            "type": "int",
+            "metadata": {
+                "description": "Daily ingestion limit in GBs. This limit doesn't apply to the following tables: SecurityAlert, SecurityBaseline, SecurityBaselineSummary, SecurityDetection, SecurityEvent, WindowsFirewall, MaliciousIPCommunication, LinuxAuditLog, SysmonEvent, ProtectionStatus, WindowsEvent"
+            }
+        },
+        "dataRetention": {
+            "type": "int",
+            "minValue": 7,
+            "maxValue": 730,
+            "metadata": {
+                "description": "Number of days of retention. Workspaces in the legacy Free pricing tier can only have 7 days."
+            },
+            "defaultValue": 90
+        },
+        "immediatePurgeDataOn30Days": {
+            "type": "bool",
+            "metadata": {
+                "description": "If set to true when changing retention to 30 days, older data will be immediately deleted. Use this with extreme caution. This only applies when retention is being set to 30 days."
+            },
+            "defaultValue": true
+        },
+        "enableSolutions": {
+            "type": "array",
+            "metadata": {
+                "description": "The list of Content Hub solutions to deploy."
+            },
+            "defaultValue": []
+        },
+        "enableUeba": {
+            "type": "bool",
+            "metadata": {
+                "description": "Whether or not UEBA should be enabled"
+            },
+            "defaultValue": true
+        },
+        "identityProviders": {
+            "type": "array",
+            "metadata": {
+                "description": "Array of identity providers to be synched with UEBA. Valid identity providers are 'ActiveDirectory' and 'AzureActiveDirectory'"
+            },
+            "defaultValue": []
+        },
+        "enableDiagnostics": {
+            "type": "bool"
+        },
+        "enableMLAlerts": {
+            "type": "bool",
+            "metadata": {
+                "description": "Enable ML Behavior Analytics rules"
+            },
+            "defaultValue": false
+        },
+        "enableScheduledAlerts": {
+            "type": "bool",
+            "metadata": {
+                "description": "Enable Scheduled analytics rules"
+            },
+            "defaultValue": false
+        },
+        "_artifactsLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The location of resources"
+            },
+            "defaultValue": "https://raw.githubusercontent.com/javiersoriano/sentinel-all-in-one/master/Sentinel-All-In-One/"
         }
     },
     "variables": {
-        "synapseWorkspaceName": "[substring(parameters('synapseWorkspaceResourceId'), add(lastIndexOf(parameters('synapseWorkspaceResourceId'), '/'), 1))]"
     },
     "resources": [
         {
-            "type": "Microsoft.MachineLearningServices/workspaces/linkedServices",
-            "apiVersion": "2020-09-01-preview",
-            "name": "[concat(parameters('amlWorkspaceName'), '/', parameters('linkName'))]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2020-06-01",
+            "name": "[parameters('rgName')]",
             "location": "[parameters('location')]",
-            "identity": {
-                "type": "SystemAssigned"
-            },
+            "properties": {}
+        },
+        {
+            "name": "workspaceCreation",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups',parameters('rgName'))]"
+            ],
+            "resourceGroup": "[parameters('rgName')]",
             "properties": {
-                "linkedServiceResourceId": "[parameters('synapseWorkspaceResourceId')]"
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), 'SubscriptionLevel/LinkedTemplates/workspace.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "pricingTierLA": {
+                        "value": "[parameters('pricingTierLA')]"
+                    },
+                    "pricingTierSentinel": {
+                        "value": "[parameters('pricingTierSentinel')]"
+                    },
+                    "dailyQuota": {
+                        "value": "[parameters('dailyQuota')]"
+                    },
+                    "dataRetention": {
+                        "value": "[parameters('dataRetention')]"
+                    },
+                    "immediatePurgeDataOn30Days": {
+                        "value": "[parameters('immediatePurgeDataOn30Days')]"
+                    },
+                    "capacityReservationLA": {
+                        "value": "[parameters('capacityReservationLA')]"
+                    },
+                    "capacityReservationSentinel": {
+                        "value": "[parameters('capacityReservationSentinel')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
             }
         },
         {
-            "type": "Microsoft.MachineLearningServices/workspaces/computes",
-            "apiVersion": "2018-11-19",
-            "name": "[concat(parameters('amlWorkspaceName'), '/', parameters('sparkPools')[copyIndex()].computeName)]",
-            "location": "[parameters('location')]",
-            "copy": {
-                "name": "poolCopy",
-                "count": "[length(parameters('sparkPools'))]"
-            },
+            "type": "Microsoft.Resources/deployments",
+            "name": "settings",
+            "apiVersion": "2020-06-01",
+            "dependsOn": [
+                "workspaceCreation"
+            ],
+            "resourceGroup": "[parameters('rgName')]",
             "properties": {
-                "resourceId": "[resourceId(reference(parameters('synapseWorkspaceResourceId'), '2019-06-01-preview', 'Full').subscriptionId, reference(parameters('synapseWorkspaceResourceId'), '2019-06-01-preview', 'Full').resourceGroupName, 'Microsoft.Synapse/workspaces/bigDataPools', variables('synapseWorkspaceName'), parameters('sparkPools')[copyIndex()].poolName)]",
-                "computeType": "SynapseSpark"
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), 'SubscriptionLevel/LinkedTemplates/settings.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "enableUeba": {
+                        "value": "[parameters('enableUeba')]"
+                    },
+                    "identityProviders": {
+                        "value": "[parameters('identityProviders')]"
+                    },
+                    "enableDiagnostics": {
+                        "value": "[parameters('enableDiagnostics')]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[not(empty(parameters('enableSolutions')))]",
+            "name": "enableSolutions",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "workspaceCreation",
+                "[resourceId('Microsoft.Resources/resourceGroups',parameters('rgName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), 'SubscriptionLevel/LinkedTemplates/solutions.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "enableSolutions": {
+                        "value": "[parameters('enableSolutions')]"
+                    },
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+         {
+            "condition": "[contains(parameters('enableDataConnectors'), 'Test')]",
+            "name": "AAD",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "workspaceCreation"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), 'SubscriptionLevel/LinkedTemplates/AAD.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[not(empty(parameters('enableDataConnectors')))]",
+            "name": "enableDataConnectors",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "workspaceCreation",
+                "enableSolutions"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), 'SubscriptionLevel/LinkedTemplates/dataConnectors.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataConnectorsKind": {
+                        "value": "[parameters('enableDataConnectors')]"
+                    },
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "tenantId": {
+                        "value": "[subscription().tenantId]"
+                    },
+                    "subscriptionId": {
+                        "value": "[subscription().subscriptionId]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[parameters('enableMLAlerts')]",
+            "name": "enableAlerts",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "enableSolutions"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), 'SubscriptionLevel/LinkedTemplates/alertRules.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataConnectorsKind": {
+                        "value": "[parameters('enableSolutions')]"
+                    },
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "enableMLAlerts":{
+                        "value": "[parameters('enableMLAlerts')]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[parameters('enableScheduledAlerts')]",
+            "name": "enableScheduledAlerts",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "enableSolutions",
+                "[resourceId('Microsoft.Resources/resourceGroups',parameters('rgName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), 'SubscriptionLevel/LinkedTemplates/scheduledAlerts.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "dataConnectorsList":{
+                        "value": "[replace(replace(replace(string(parameters('enableDataConnectors')),'\"',''),'[',''),']','')]"
+                    },
+                    "severityLevels": {
+                        "value": "[replace(replace(replace(string(parameters('severityLevels')),'\"',''),'[',''),']','')]"
+                    }
+                }
             }
         }
     ],
     "outputs": {
-        "SaiPrincipalId": {
+        "workspaceName": {
             "type": "string",
-            "value": "[reference(parameters('linkName'), '2020-04-01-preview', 'Full').identity.principalId]",
-            "metadata": {
-                "description": "PrincipalId of the SAI(System Assigned Identity) of the LinkedService, please use this to asssign roles."
-            }
+            "value": "[parameters('workspaceName')]"
+        },
+        "dataConnectorsList": {
+            "type": "string",
+            "value": "[replace(replace(string(parameters('enableDataConnectors')),'\"',''),'[','')]"
         }
     }
 }
