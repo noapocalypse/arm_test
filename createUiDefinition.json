@@ -149,219 +149,84 @@
         "elements": [
           {
             "name": "enableAzureAD",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable Azure AD",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           },
           {
             "name": "enableAzureActivity",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable Azure Activity",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           },
           {
             "name": "enableO365",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable O365",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           },
           {
             "name": "enableCloudAppSecurity",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable Cloud App Security",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           },
           {
             "name": "enableAzureADIdentityProtection",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable Azure AD Identity Protection",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           },
           {
             "name": "enableAzureDefender",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable Azure Defender",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           },
           {
             "name": "enableAzureDefenderForIdentity",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable Azure Defender For Identity",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           },
           {
             "name": "enableAzureDefenderForEndpoint",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable Azure Defender For Endpoint",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           },
           {
             "name": "enableAzureSecurityCenter",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Enable Azure Security Center",
-            "subLabel": "",
-            "defaultValue": "true",
-            "toolTip": "",
             "constraints": {
               "required": false,
-              "allowedValues": [
-                {
-                  "label": "true",
-                  "value": true
-                },
-                {
-                  "label": "false",
-                  "value": false
-                }
-              ],
-              "validations": []
-            },
-            "infoMessages": [],
-            "visible": true
+              "validationMessage": "Up to you if you want it enabled or not"
+            }
           }
         ]
       },
